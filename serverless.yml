@@ -7,6 +7,33 @@ provider:
   runtime: go1.x
   stage: development
   region: ap-southeast-1
+  environment:
+    DYNAMODB_TABLE: "${self:service}_contacts"
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+
+resources:
+  Resources:
+    NicknamesTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
 
 package:
  exclude:
@@ -21,6 +48,8 @@ functions:
       - http:
           path: echo
           method: post
+    tags:
+      app: echo
 
   hello:
     handler: bin/hello_page
@@ -28,3 +57,23 @@ functions:
       - http:
           path: hello
           method: get
+    tags:
+      app: hello
+
+  post_email:
+    handler: bin/post_email
+    events:
+      - http:
+          path: email
+          method: post          
+    tags:
+      app: create_contact
+  
+  get_email:
+    handler: bin/get_email
+    events:
+      - http:
+          path: email
+          method: get          
+    tags:
+      app: get_contact
