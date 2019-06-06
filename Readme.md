@@ -7,12 +7,12 @@ $ sls deploy
 # Use also can use serverless instead of sls
 # sls is alias of serverless
 ```
-### echo function
+### Echo function
 ```shell
 $ curl -X POST https://<your-lambda-address>/development/echo -d "Echo messages"
 ```
 ![echo](images/echo.png)
-### hello function
+### Hello function
 ```shell
 $ curl -X GET https://<your-lambda-address>/development/hello
 ```
