@@ -5,7 +5,7 @@
 $ make
 $ sls deploy
 # Use also can use serverless instead of sls
-# sls is alias of serverless
+# sls is serverless's alias
 ```
 ### Echo function
 ```shell
