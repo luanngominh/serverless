@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	tableName = "meocon-development"
+	tableName = ""
 )
 
 func init() {
