@@ -8,6 +8,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 )
@@ -23,9 +24,10 @@ func init() {
 // Define request and response
 type Response events.APIGatewayProxyResponse
 
-type userInfo struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
+type contact struct {
+	Name    string `json:"name"`
+	Email   string `json:"email"`
+	Message string `json:"message"`
 }
 
 // Handler is our lambda handler invoked by the `lambda.Start` function call
@@ -36,7 +38,7 @@ func Handler(ctx context.Context) (Response, error) {
 	svc := dynamodb.New(sess)
 
 	result, err := svc.Scan(&dynamodb.ScanInput{
-		TableName: &tableName,
+		TableName: aws.String("meocon_contacts"),
 	})
 	if err != nil {
 		return Response{
@@ -45,11 +47,21 @@ func Handler(ctx context.Context) (Response, error) {
 		}, nil
 	}
 
-	data, err := json.Marshal(result.Items)
+	contacts := []contact{}
+	for _, item := range result.Items {
+		c := contact{
+			Name:    *item["name"].S,
+			Email:   *item["email"].S,
+			Message: *item["message"].S,
+		}
+		contacts = append(contacts, c)
+	}
+
+	data, err := json.Marshal(contacts)
 	if err != nil {
 		return Response{
 			StatusCode: 404,
-			Body:       err.Error(),
+			Body:       fmt.Sprintf("Decode json error %v", err),
 		}, nil
 	}
 
