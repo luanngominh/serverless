@@ -60,7 +60,7 @@ func Handler(request Request) (Response, error) {
 	if (u.Name == "") || (u.Email == "") || (u.Message == "") {
 		return Response{
 			StatusCode: 400,
-			Body:       fmt.Sprintf("{\"status\": \"failure\""),
+			Body:       fmt.Sprintf("{\"status\": \"failure\"}"),
 		}, nil
 	}
 
@@ -92,7 +92,7 @@ func Handler(request Request) (Response, error) {
 
 	return Response{
 		StatusCode: 200,
-		Body:       fmt.Sprintf("{\"status\": \"ok\""),
+		Body:       fmt.Sprintf("{\"status\": \"ok\"}"),
 	}, nil
 }
 
