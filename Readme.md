@@ -12,6 +12,7 @@ $ sls deploy
 $ curl -X POST https://<your-lambda-address>/development/echo -d "Echo messages"
 ```
 ![echo](images/echo.png)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fluanngominh%2Fserverless.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fluanngominh%2Fserverless?ref=badge_shield)
 ### Hello function
 ```shell
 $ curl -X GET https://<your-lambda-address>/development/hello
@@ -28,3 +29,6 @@ $ curl -X POST https://<your-lambda-address>/development/email -d '{"name": "lua
 $ curl -X GET https://<your-lambda-address>/development/email
 ```
 ![view all contacts have been send](images/viewct.png)
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fluanngominh%2Fserverless.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fluanngominh%2Fserverless?ref=badge_large)
